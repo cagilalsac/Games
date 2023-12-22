@@ -1,0 +1,44 @@
+﻿@using DataAccess.Enums
+
+@model User
+
+<h4>User</h4>
+<hr />
+<dl class="row">
+    <dt class="col-2">
+        @Html.DisplayNameFor(model => model.UserName)
+    </dt>
+    <dd class="col-10">
+        @Html.DisplayFor(model => model.UserName)
+    </dd>
+    <dt class="col-2">
+        @Html.DisplayNameFor(model => model.Password)
+    </dt>
+    <dd class="col-10">
+        @(new string('*', Model.Password.Length))
+    </dd>
+    <dt class="col-2">
+        @Html.DisplayNameFor(model => model.IsActive)
+    </dt>
+    <dd class="col-10">
+        @(Model.IsActive ? "Active" : "Not Active")
+    </dd>
+    <dt class="col-2">
+        @Html.DisplayNameFor(model => model.BirthDate)
+    </dt>
+    <dd class="col-10">
+        @(Model.BirthDate.ToString("MM/dd/yyyy"))
+    </dd>
+    <dt class="col-2">
+        @Html.DisplayNameFor(model => model.Sex)
+    </dt>
+    <dd class="col-10">
+        @(Model.Sex == 1 ? Sex.Woman : Sex.Man)
+    </dd>
+    <dt class="col-2">
+        @Html.DisplayNameFor(model => model.Role)
+    </dt>
+    <dd class="col-10">
+        @Html.DisplayFor(model => model.Role.Name)
+    </dd>
+</dl>

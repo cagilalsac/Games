@@ -1,0 +1,78 @@
+﻿﻿@using System.Globalization
+@using DataAccess.Enums
+
+@model IEnumerable<User>
+@*Generated from Custom Template.*@
+@*Model namespace using directive should be added to _ViewImports.cshtml.*@
+
+@{
+    ViewData["Title"] = "Users";
+    int count = Model.Count();
+    string countMessage = count == 0 ? "No users found." : count + " " + (count == 1 ? "user" : "users") + " found.";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@if (TempData["Message"] is not null)
+{
+    <p class="bg-warning text-dark">@TempData["Message"]</p>
+}
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<p class="bg-info text-black">@countMessage</p>
+
+@if (count > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.IsActive)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BirthDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Sex)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Role)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserName)
+                    </td>
+                    <td>
+                        @(item.IsActive ? "Active" : "Not Active")
+                    </td>
+                    <td>
+                        @item.BirthDate.ToString("MM/dd/yyyy")
+                    </td>
+                    <td>
+                        @(item.Sex == 1 ? Sex.Woman : Sex.Man)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Role.Name)
+                    </td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.Id">Details</a>&nbsp;|&nbsp;
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>&nbsp;|&nbsp;
+                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
