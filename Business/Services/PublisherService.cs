@@ -1,8 +1,10 @@
 ﻿using Business.Models;
 using Core.Business.Services.Bases;
 using Core.Repositories.EntityFramework.Bases;
+using Core.Results;
 using Core.Results.Bases;
 using DataAccess.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Business.Services
 {
@@ -21,24 +23,42 @@ namespace Business.Services
 
         public IQueryable<PublisherModel> Query()
         {
-            return _repo.Query().OrderBy(p => p.Name).Select(p => new PublisherModel()
+            return _repo.Query().Include(p => p.Games).OrderBy(p => p.Name).Select(p => new PublisherModel()
             {
                 Guid = p.Guid,
                 Id = p.Id,
                 Name = p.Name,
 
-                GameCountOutput = p.Games.Count
+                GameCountOutput = p.Games == null ? 0 : p.Games.Count,
+                GamesOutput = p.Games == null ? "" : string.Join("<br />", p.Games.Select(g => g.Name))
             });
         }
 
         public ResultBase Add(PublisherModel model)
         {
-            throw new NotImplementedException();
+            if (_repo.Query().Any(p => p.Name.ToUpper() == model.Name.ToUpper().Trim()))
+                return new ErrorResult("Publisher can't be added because publisher with the same name exists!");
+            var entity = new Publisher()
+            {
+                Guid = Guid.NewGuid().ToString(),
+                Name = model.Name.Trim()
+            };
+            _repo.Add(entity);
+            return new SuccessResult("Publisher added successfully.");
         }
 
         public ResultBase Update(PublisherModel model)
         {
-            throw new NotImplementedException();
+            if (_repo.Query().Any(p => p.Id != model.Id && p.Name.ToUpper() == model.Name.ToUpper().Trim()))
+                return new ErrorResult("Publisher can't be updated because publisher with the same name exists!");
+            var entity = new Publisher()
+            {
+                Id = model.Id,
+                Name = model.Name.Trim(),
+                Guid = model.Guid
+            };
+            _repo.Update(entity);
+            return new SuccessResult("Publisher updated successfully.");
         }
 
         public ResultBase Delete(params int[] ids)

@@ -25,10 +25,10 @@ namespace MVC.Controllers
         // GET: Publishers/Details/5
         public IActionResult Details(int id)
         {
-            PublisherModel publisher = null; // TODO: Add get item service logic here
+            PublisherModel publisher = _publisherService.Query().SingleOrDefault(p => p.Id == id);
             if (publisher == null)
             {
-                return NotFound();
+                return View("_Error", "Publisher not found!");
             }
             return View(publisher);
         }
@@ -36,7 +36,6 @@ namespace MVC.Controllers
         // GET: Publishers/Create
         public IActionResult Create()
         {
-            // TODO: Add get related items service logic here to set ViewData if necessary and update null parameter in SelectList with these items
             return View();
         }
 
@@ -49,22 +48,25 @@ namespace MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                // TODO: Add insert service logic here
-                return RedirectToAction(nameof(Index));
+                var result = _publisherService.Add(publisher);
+                if (result.IsSuccessful)
+                {
+                    TempData["Message"] = result.Message;
+                    return RedirectToAction(nameof(Index));
+                }
+                ModelState.AddModelError("", result.Message);
             }
-            // TODO: Add get related items service logic here to set ViewData if necessary and update null parameter in SelectList with these items
             return View(publisher);
         }
 
         // GET: Publishers/Edit/5
         public IActionResult Edit(int id)
         {
-            PublisherModel publisher = null; // TODO: Add get item service logic here
+            PublisherModel publisher = _publisherService.Query().SingleOrDefault(p => p.Id == id);
             if (publisher == null)
             {
-                return NotFound();
+                return View("_Error", "Publisher not found!");
             }
-            // TODO: Add get related items service logic here to set ViewData if necessary and update null parameter in SelectList with these items
             return View(publisher);
         }
 
@@ -77,10 +79,14 @@ namespace MVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                // TODO: Add update service logic here
-                return RedirectToAction(nameof(Index));
+                var result = _publisherService.Update(publisher);
+                if (result.IsSuccessful)
+                {
+                    TempData["Message"] = result.Message;
+                    return RedirectToAction(nameof(Index));
+                }
+                ModelState.AddModelError("", result.Message);
             }
-            // TODO: Add get related items service logic here to set ViewData if necessary and update null parameter in SelectList with these items
             return View(publisher);
         }
 

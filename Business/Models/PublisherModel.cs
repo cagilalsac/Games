@@ -20,6 +20,9 @@ namespace Business.Models
         #region View'ların ekstra ihtiyacı olan özellikler
         [DisplayName("Game Count")]
         public int GameCountOutput { get; set; }
+
+        [DisplayName("Games")]
+        public string GamesOutput { get; set; }
         #endregion
     }
 }
