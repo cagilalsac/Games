@@ -83,7 +83,7 @@ namespace MVC.Controllers
                 if (result.IsSuccessful)
                 {
                     TempData["Message"] = result.Message;
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(Details), new { id = publisher.Id });
                 }
                 ModelState.AddModelError("", result.Message);
             }
@@ -93,10 +93,10 @@ namespace MVC.Controllers
         // GET: Publishers/Delete/5
         public IActionResult Delete(int id)
         {
-            PublisherModel publisher = null; // TODO: Add get item service logic here
+            PublisherModel publisher = _publisherService.Query().SingleOrDefault(p => p.Id == id);
             if (publisher == null)
             {
-                return NotFound();
+                return View("_Error", "Publisher not found!");
             }
             return View(publisher);
         }
@@ -106,7 +106,8 @@ namespace MVC.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
-            // TODO: Add delete service logic here
+            var result = _publisherService.Delete(id);
+            TempData["Message"] = result.Message;
             return RedirectToAction(nameof(Index));
         }
 	}

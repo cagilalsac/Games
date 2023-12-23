@@ -5,6 +5,7 @@ using Core.Results;
 using Core.Results.Bases;
 using DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Runtime.Serialization;
 
 namespace Business.Services
 {
@@ -63,7 +64,11 @@ namespace Business.Services
 
         public ResultBase Delete(params int[] ids)
         {
-            throw new NotImplementedException();
+            var entity = _repo.Query().Include(p => p.Games).SingleOrDefault(p => ids.Contains(p.Id));
+            if (entity.Games is not null && entity.Games.Any()) // if (entity.Games is not null && entity.Games.Count() > 0)
+                return new ErrorResult("Publisher can't be deleted because it has relational games!");
+            _repo.Delete(p => ids.Contains(p.Id));
+            return new SuccessResult("Publisher deleted successfully.");
         }
 
         public void Dispose()
