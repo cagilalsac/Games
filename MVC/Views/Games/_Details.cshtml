@@ -1,0 +1,72 @@
+﻿@using DataAccess.Enums
+
+@model GameModel
+@*Generated from Custom Template.*@
+@*Model namespace using directive should be added to _ViewImports.cshtml.*@
+
+<dl class="row">
+    <dt class="col-3">
+        @Html.DisplayNameFor(model => model.Name)
+    </dt>
+    <dd class="col-9">
+        @Html.DisplayFor(model => model.Name)
+    </dd>
+    <dt class="col-3">
+        @Html.DisplayNameFor(model => model.Description)
+    </dt>
+    <dd class="col-9">
+        @Html.DisplayFor(model => model.Description)
+    </dd>
+    <dt class="col-3">
+        @Html.DisplayNameFor(model => model.PublishDateOutput)
+    </dt>
+    <dd class="col-9">
+        @Html.DisplayFor(model => model.PublishDateOutput)
+    </dd>
+    <dt class="col-3">
+        @Html.DisplayNameFor(model => model.PriceOutput)
+    </dt>
+    <dd class="col-9">
+        @Html.DisplayFor(model => model.PriceOutput)
+    </dd>
+    <dt class="col-3">
+        @Html.DisplayNameFor(model => model.DownloadCount)
+    </dt>
+    <dd class="col-9">
+        @Html.DisplayFor(model => model.DownloadCount)
+    </dd>
+    <dt class="col-3">
+        @Html.DisplayNameFor(model => model.PlayerCountTypeOutput)
+    </dt>
+    <dd class="col-9">
+        @Html.DisplayFor(model => model.PlayerCountTypeOutput)
+    </dd>
+    <dt class="col-3">
+        @Html.DisplayNameFor(model => model.PublisherOutput.Name)
+    </dt>
+    <dd class="col-9">
+        @Html.DisplayFor(model => model.PublisherOutput.Name)
+    </dd>
+    <dt class="col-3">
+        @Html.DisplayNameFor(model => model.UsersOutput)
+    </dt>
+    <dd class="col-9">
+        @{
+            if (Model.UsersOutput is not null)
+            {
+                foreach (var user in Model.UsersOutput)
+                {
+                    if ((Sex)user.Sex == Sex.Woman)
+                    {
+                        <span class="badge" style="background-color:#FF69B4;color:#fff;">@user.UserName</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-primary text-white">@user.UserName</span>
+                    }
+                    <br />
+                }
+            }
+        }
+    </dd>
+</dl>

@@ -26,6 +26,7 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 builder.Services.AddDbContext<GamesDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped(typeof(RepoBase<>), typeof(Repo<>));
 builder.Services.AddScoped<IPublisherService, PublisherService>();
+builder.Services.AddScoped<IGameService, GameService>();
 #endregion
 
 builder.Services.AddControllersWithViews();

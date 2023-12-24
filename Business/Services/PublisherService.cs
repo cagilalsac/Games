@@ -5,7 +5,6 @@ using Core.Results;
 using Core.Results.Bases;
 using DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
-using System.Runtime.Serialization;
 
 namespace Business.Services
 {
