@@ -1,9 +1,8 @@
-﻿using Core.Records.Bases;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 
 namespace Core.Repositories.Bases
 {
-    public interface IRepoBase<TEntity> : IDisposable where TEntity : RecordBase, new()
+    public interface IRepoBase<TEntity> : IDisposable where TEntity : class, new()
     {
         int Save();
 

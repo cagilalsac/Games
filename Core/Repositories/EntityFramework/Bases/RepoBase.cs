@@ -1,11 +1,10 @@
-﻿using Core.Records.Bases;
-using Core.Repositories.Bases;
+﻿using Core.Repositories.Bases;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace Core.Repositories.EntityFramework.Bases
 {
-    public abstract class RepoBase<TEntity> : IRepoBase<TEntity> where TEntity : RecordBase, new()
+    public abstract class RepoBase<TEntity> : IRepoBase<TEntity> where TEntity : class, new()
     {
         protected readonly DbContext _db;
 
